@@ -50,35 +50,66 @@ export default function Home() {
   }
 
   const submit = async () => {
-    if (!form.name || !form.areaHa) {
-      alert('Please fill in required fields (Name and Area)')
-      return
-    }
-    setLoading(true)
-    try {
-      const payload = {
-        ...form,
-        areaHa: Number(form.areaHa || 0),
-        species: form.cropType === 'agroforestry' ? form.species : [],
-      }
-      // Simulating API call since we don't have the actual endpoint
-      await new Promise(resolve => setTimeout(resolve, 2000))
-      const mockResult: EstimateResult = {
-        method: form.cropType === 'rice' ? 'Rice Methane Reduction' : 'Agroforestry Sequestration',
-        tCO2e: form.cropType === 'rice' ? Number(form.areaHa) * 2.5 : form.species.reduce((sum, s) => sum + s.count * 0.5, 0),
-        pricePerTon: 1200,
-        revenueINR: 0,
-        uncertainty: 0.15
-      }
-      mockResult.revenueINR = mockResult.tCO2e * mockResult.pricePerTon
-      setResult(mockResult)
-    } catch (err) {
-      console.error(err)
-      alert('Error submitting form')
-    } finally {
-      setLoading(false)
-    }
+  if (!form.name || !form.areaHa) {
+    alert("Please fill in required fields (Name and Area)");
+    return;
   }
+  setLoading(true);
+
+  try {
+    const payload = {
+      ...form,
+      areaHa: Number(form.areaHa || 0),
+      species: form.cropType === "agroforestry" ? form.species : [],
+    };
+
+    // ✅ First, save to backend (DB)
+    const res = await fetch("/api/admin/submissions?limit=100", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to save submission");
+    }
+
+    // ✅ Meanwhile, do estimation (like your mock)
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    const mockResult: EstimateResult = {
+      method:
+        form.cropType === "rice"
+          ? "Rice Methane Reduction"
+          : "Agroforestry Sequestration",
+      tCO2e:
+        form.cropType === "rice"
+          ? Number(form.areaHa) * 2.5
+          : form.species.reduce(
+              (sum, s) => sum + Number(s.count || 0) * 0.5,
+              0
+            ),
+      pricePerTon: 1200,
+      revenueINR: 0,
+      uncertainty: 0.15,
+    };
+
+    mockResult.revenueINR = mockResult.tCO2e * mockResult.pricePerTon;
+
+    // ✅ Update state
+    setResult(mockResult);
+
+    // ✅ You can also use backend response if needed
+    const data = await res.json();
+    console.log("Saved submission:", data);
+  } catch (err) {
+    console.error(err);
+    alert("Error submitting form");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   const addSpecies = () => {
     setForm({
