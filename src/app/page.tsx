@@ -122,6 +122,7 @@ export default function Home() {
     const newSpecies = form.species.filter((_, i) => i !== index)
     setForm({ ...form, species: newSpecies })
   }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 
   const updateSpecies = (index: number, field: keyof Species, value: any) => {
     const species = [...form.species]
