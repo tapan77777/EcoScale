@@ -124,11 +124,16 @@ export default function Home() {
   }
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 
-  const updateSpecies = (index: number, field: keyof Species, value: any) => {
-    const species = [...form.species]
-    species[index] = { ...species[index], [field]: value }
-    setForm({ ...form, species })
-  }
+  const updateSpecies = <K extends keyof Species>(
+  index: number,
+  field: K,
+  value: Species[K]
+) => {
+  const species = [...form.species]
+  species[index] = { ...species[index], [field]: value }
+  setForm({ ...form, species })
+}
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 py-4 px-4 sm:px-6 lg:px-8">
