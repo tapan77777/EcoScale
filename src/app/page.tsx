@@ -1,6 +1,7 @@
 'use client'
 
 import { Calculator, Leaf, MapPin, Plus, Sprout, Trash2, User } from 'lucide-react'
+import Link from 'next/link'
 import { ChangeEvent, useState } from 'react'
 
 interface Species {
@@ -138,6 +139,16 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 py-4 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
+        <Link
+  href="/admin"
+  className=" top-4 right-4 z-50 inline-flex items-center px-4 py-2 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white text-sm font-medium rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-green-500/30 backdrop-blur-sm border border-white/10"
+>
+  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+  </svg>
+  Admin
+</Link>
         {/* Header */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center mb-4">
@@ -152,6 +163,8 @@ export default function Home() {
             Calculate your carbon credit potential and contribute to a sustainable future
           </p>
         </div>
+
+        
 
         <div className="space-y-8">
           {/* Farmer Information Card */}
@@ -369,7 +382,7 @@ export default function Home() {
         </div>
 
         {/* Results Card */}
-        {result && (
+{result && (
           <div className="mt-8 bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl shadow-xl p-6 sm:p-8 text-white">
             <div className="text-center mb-6">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-white bg-opacity-20 rounded-full mb-4">
@@ -380,26 +393,26 @@ export default function Home() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="bg-white bg-opacity-20 rounded-xl p-4 text-center">
-                <div className="text-2xl sm:text-3xl font-bold mb-1">{result.tCO2e.toFixed(2)}</div>
-                <div className="text-green-100 text-sm">tCO₂e Potential</div>
+              <div className="bg-white rounded-xl p-4 text-center shadow-lg">
+                <div className="text-2xl sm:text-3xl font-bold mb-1 text-gray-900">{result.tCO2e.toFixed(2)}</div>
+                <div className="text-gray-700 text-sm">tCO₂e Potential</div>
               </div>
-              <div className="bg-white bg-opacity-20 rounded-xl p-4 text-center">
-                <div className="text-2xl sm:text-3xl font-bold mb-1">₹{result.pricePerTon.toLocaleString()}</div>
-                <div className="text-green-100 text-sm">Price per Ton</div>
+              <div className="bg-white rounded-xl p-4 text-center shadow-lg">
+                <div className="text-2xl sm:text-3xl font-bold mb-1 text-gray-900">₹{result.pricePerTon.toLocaleString()}</div>
+                <div className="text-gray-700 text-sm">Price per Ton</div>
               </div>
-              <div className="bg-white bg-opacity-20 rounded-xl p-4 text-center">
-                <div className="text-2xl sm:text-3xl font-bold mb-1">₹{result.revenueINR.toLocaleString()}</div>
-                <div className="text-green-100 text-sm">Annual Revenue</div>
+              <div className="bg-white rounded-xl p-4 text-center shadow-lg">
+                <div className="text-2xl sm:text-3xl font-bold mb-1 text-gray-900">₹{result.revenueINR.toLocaleString()}</div>
+                <div className="text-gray-700 text-sm">Annual Revenue</div>
               </div>
-              <div className="bg-white bg-opacity-20 rounded-xl p-4 text-center">
-                <div className="text-2xl sm:text-3xl font-bold mb-1">±{Math.round(result.uncertainty * 100)}%</div>
-                <div className="text-green-100 text-sm">Uncertainty</div>
+              <div className="bg-white rounded-xl p-4 text-center shadow-lg">
+                <div className="text-2xl sm:text-3xl font-bold mb-1 text-gray-900">±{Math.round(result.uncertainty * 100)}%</div>
+                <div className="text-gray-700 text-sm">Uncertainty</div>
               </div>
             </div>
 
             <div className="mt-6 p-4 bg-white bg-opacity-10 rounded-lg">
-              <p className="text-sm text-green-100 text-center">
+              <p className="text-sm text-gray-900 text-center">
                 * This is a preliminary estimate. Actual carbon credit certification requires detailed verification and monitoring.
               </p>
             </div>
